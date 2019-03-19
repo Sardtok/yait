@@ -1,25 +1,31 @@
 package yait.web.model;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import lombok.AllArgsConstructor;
-import lombok.Data;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
+import lombok.*;
 
+import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
-import java.util.Collections;
+import java.time.Duration;
 import java.util.List;
 
+@Valid
 @Data
-@AllArgsConstructor
+@Builder
+@JsonDeserialize(builder = Interval.IntervalBuilder.class)
 public class Interval {
     @NotBlank
     String title;
+
     @NotNull
     List<Interval> subIntervals;
 
-    @JsonCreator
-    public Interval(@JsonProperty("title") String title) {
-        this(title, Collections.emptyList());
+    @NotNull
+    Duration duration;
+
+    @JsonPOJOBuilder(withPrefix = "")
+    public static class IntervalBuilder {
+
     }
 }
